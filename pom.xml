@@ -16,7 +16,7 @@
     <surfire.version>2.22.2</surfire.version>
     <assertj.version>3.16.1</assertj.version>
     <lombok.version>1.18.16</lombok.version>
-    <mockito.version>3.3.3</mockito.version>
+    <mockito.version>3.11.2</mockito.version>
     <sonar.language>java</sonar.language>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
