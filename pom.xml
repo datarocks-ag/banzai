@@ -26,7 +26,7 @@
 
     <maven-fmt.version>2.13</maven-fmt.version>
     <maven-sonar.version>3.9.1.2184</maven-sonar.version>
-    <maven-jacoco.version>0.8.6</maven-jacoco.version>
+    <maven-jacoco.version>0.8.8</maven-jacoco.version>
 
     <sonar.language>java</sonar.language>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
