@@ -2,12 +2,13 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Java CI with Maven for library develop (mvn deploy)
+name: Banzai Release
 
 on:
   push:
+    # Sequence of patterns matched against refs/tags
     tags:
-    - 'v*'
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   build:
@@ -34,7 +35,7 @@ jobs:
       run: mvn -B test
     - name: Maven set version
       run: mvn -B versions:set -DnewVersion=${{ steps.get_tag.outputs.TAG }}
-   - name: Maven build package
+    - name: Maven build package
       run: mvn -B package -Dmaven.test.skip=true
     - name: Maven deploy to mvn repository
       run: mvn -B deploy
