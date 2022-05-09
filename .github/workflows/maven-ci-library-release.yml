@@ -25,12 +25,17 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
+    - name: Get the tag (without leading v)
+      id: get_tag
+      run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\/v/}
     - name: Maven test formatting
       run: mvn -B verify
     - name: Maven run tests
       run: mvn -B test
-    - name: Maven build package
-      run: mvn -B package
+    - name: Maven set version
+      run: mvn -B versions:set -DnewVersion=${{ steps.get_tag.outputs.TAG }}
+   - name: Maven build package
+      run: mvn -B package -Dmaven.test.skip=true
     - name: Maven deploy to mvn repository
       run: mvn -B deploy
       env:
