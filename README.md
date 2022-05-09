@@ -1,4 +1,4 @@
-# Benzai
+# Banzai
 
 The banzai library is a transform-process-transform pipeline, that allows to implement complex data
 processing task in a well-structured and configurable approach.
