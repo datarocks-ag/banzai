@@ -25,7 +25,7 @@
     <mockito-jupiter.version>3.7.7</mockito-jupiter.version>
 
     <maven-fmt.version>2.13</maven-fmt.version>
-    <maven-sonar.version>3.8.0.2131</maven-sonar.version>
+    <maven-sonar.version>3.9.1.2184</maven-sonar.version>
     <maven-jacoco.version>0.8.6</maven-jacoco.version>
 
     <sonar.language>java</sonar.language>
