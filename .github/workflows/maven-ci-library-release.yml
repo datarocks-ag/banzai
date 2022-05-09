@@ -15,22 +15,27 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Set up JDK 1.8
+    - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 11
     - uses: actions/cache@v1
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
+    - name: Get the tag (without leading v)
+      id: get_tag
+      run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\/v/}
     - name: Maven test formatting
       run: mvn -B verify
     - name: Maven run tests
       run: mvn -B test
-    - name: Maven build package
-      run: mvn -B package
+    - name: Maven set version
+      run: mvn -B versions:set -DnewVersion=${{ steps.get_tag.outputs.TAG }}
+   - name: Maven build package
+      run: mvn -B package -Dmaven.test.skip=true
     - name: Maven deploy to mvn repository
       run: mvn -B deploy
       env:

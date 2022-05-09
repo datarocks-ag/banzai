@@ -10,13 +10,24 @@
   <packaging>jar</packaging>
 
   <properties>
-    <maven.compiler.source>8</maven.compiler.source>
-    <maven.compiler.target>8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
     <junit.version>5.7.0</junit.version>
     <surfire.version>2.22.2</surfire.version>
-    <assertj.version>3.16.1</assertj.version>
-    <lombok.version>1.18.16</lombok.version>
-    <mockito.version>3.3.3</mockito.version>
+    <assertj.version>3.22.0</assertj.version>
+    <lombok.version>1.18.24</lombok.version>
+    <log4j.version>1.7.36</log4j.version>
+    <gson.version>2.8.6</gson.version>
+    <guava.version>30.1-jre</guava.version>
+    <commons-lang.version>3.11</commons-lang.version>
+    <json-schema.version>1.14.1</json-schema.version>
+    <mockito.version>4.5.1</mockito.version>
+    <mockito-jupiter.version>3.7.7</mockito-jupiter.version>
+
+    <maven-fmt.version>2.13</maven-fmt.version>
+    <maven-sonar.version>3.8.0.2131</maven-sonar.version>
+    <maven-jacoco.version>0.8.6</maven-jacoco.version>
+
     <sonar.language>java</sonar.language>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -27,7 +38,6 @@
     <sonar.host.url>http://localhost:9000</sonar.host.url>
     <!--suppress UnresolvedMavenProperty -->
     <sonar.login>${env.SONAR_LOGIN}</sonar.login>
-    <jacoco.version>0.8.6</jacoco.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -50,12 +60,12 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.30</version>
+      <version>${log4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.30</version>
+      <version>${log4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -66,22 +76,22 @@
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.8.6</version>
+      <version>${gson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.github.everit-org.json-schema</groupId>
       <artifactId>org.everit.json.schema</artifactId>
-      <version>1.12.1</version>
+      <version>${json-schema.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>30.1-jre</version>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.11</version>
+      <version>${commons-lang.version}</version>
     </dependency>
 
     <dependency>
@@ -116,7 +126,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
-      <version>3.7.7</version>
+      <version>${mockito-jupiter.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -132,7 +142,7 @@
       <plugin>
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
-        <version>2.9</version>
+        <version>${maven-fmt.version}</version>
         <executions>
           <execution>
             <phase>verify</phase>
@@ -145,12 +155,12 @@
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.8.0.2131</version>
+        <version>${maven-sonar.version}</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
+        <version>${maven-jacoco.version}</version>
         <configuration>
           <destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
           <dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
