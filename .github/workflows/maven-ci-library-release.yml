@@ -24,13 +24,13 @@ jobs:
         cache: maven
     - name: Get the tag (without leading v)
       id: get_tag
-      run: echo "TAG=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_STATE
+      run: echo "release_tag=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
     - name: Maven test formatting
       run: mvn -B verify
     - name: Maven run tests
       run: mvn -B test
     - name: Maven set version
-      run: mvn -B versions:set -DnewVersion=${{ steps.get_tag.outputs.TAG }}
+      run: mvn -B versions:set -DnewVersion=${{ env.release_tag }}
     - name: Maven build package
       run: mvn -B package -Dmaven.test.skip
     - name: Maven deploy to mvn repository
