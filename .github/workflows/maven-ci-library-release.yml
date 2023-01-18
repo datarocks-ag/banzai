@@ -22,6 +22,8 @@ jobs:
         distribution: temurin
         java-version: 11
         cache: maven
+        gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
+        gpg-passphrase: MAVEN_GPG_PASSPHRASE
     - name: Get the tag (without leading v)
       id: get_tag
       run: echo "release_tag_version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
@@ -33,6 +35,7 @@ jobs:
       run: mvn -P github-release --batch-mode -B deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSPHRASE }}
   release-ossrh:
     runs-on: ubuntu-latest
     steps:
@@ -47,6 +50,8 @@ jobs:
         server-id: ossrh
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
+        gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
+        gpg-passphrase: MAVEN_GPG_PASSPHRASE
     - name: Get the tag (without leading v)
       id: get_tag
       run: echo "release_tag_version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
@@ -59,3 +64,4 @@ jobs:
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSPHRASE }}
