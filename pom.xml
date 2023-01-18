@@ -11,6 +11,16 @@
 
   <name>banzai</name>
   <description>The banzai library is a transform-process-transform pipeline.</description>
+  <developers>
+    <developer>
+      <name>Sebastian Schmelzer</name>
+      <organization>Data Rocks AG</organization>
+    </developer>
+    <developer>
+      <name>Marco Kneubühler</name>
+      <organization>Data Rocks AG</organization>
+    </developer>
+  </developers>
   <licenses>
     <license>
       <name>MIT</name>
@@ -44,6 +54,9 @@
     <maven-fmt.version>2.19</maven-fmt.version>
     <maven-sonar.version>3.9.1.2184</maven-sonar.version>
     <maven-jacoco.version>0.8.8</maven-jacoco.version>
+    <maven-javadoc.version>3.4.1</maven-javadoc.version>
+    <maven-source.version>3.2.1</maven-source.version>
+    <maven-gpg.version>3.0.1</maven-gpg.version>
 
     <sonar.language>java</sonar.language>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -215,6 +228,53 @@
             <phase>package</phase>
             <goals>
               <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>${maven-gpg.version}</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+            <configuration>
+              <!-- Prevent `gpg` from using pinentry programs -->
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc.version}</version>
+        <executions>
+          <execution>
+            <id>attach-javadoc</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source.version}</version>
+        <executions>
+          <execution>
+            <id>attach-source</id>
+            <goals>
+              <goal>jar</goal>
             </goals>
           </execution>
         </executions>
