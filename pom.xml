@@ -9,6 +9,24 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
+  <name>banzai</name>
+  <description>The banzai library is a transform-process-transform pipeline.</description>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <url>https://github.com/datarocks-ag/banzai</url>
+
+  <scm>
+    <connection>scm:git:https://github.com/datarocks-ag/banzai.git</connection>
+    <developerConnection>scm:git:git@github.com:datarocks-ag/banzai.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/datarocks-ag/banzai</url>
+  </scm>
+
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
