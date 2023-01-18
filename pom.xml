@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.datarocks.banzai</groupId>
+  <groupId>org.datarocks</groupId>
   <artifactId>banzai</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -23,7 +23,7 @@
     <json-schema.version>1.14.1</json-schema.version>
     <mockito.version>4.10.0</mockito.version>
 
-    <maven-fmt.version>2.13</maven-fmt.version>
+    <maven-fmt.version>2.19</maven-fmt.version>
     <maven-sonar.version>3.9.1.2184</maven-sonar.version>
     <maven-jacoco.version>0.8.8</maven-jacoco.version>
 
@@ -40,13 +40,28 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <name>GitHub Datarocks Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/datarocks-ag/banzai</url>
-    </repository>
-  </distributionManagement>
+  <profiles>
+    <profile>
+      <id>github-release</id>
+      <distributionManagement>
+        <repository>
+          <id>github</id>
+          <name>GitHub Datarocks Apache Maven Packages</name>
+          <url>https://maven.pkg.github.com/datarocks-ag/banzai</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>ossrh-release</id>
+      <distributionManagement>
+        <repository>
+          <id>ossrh</id>
+          <name>Central Repository OSSRH</name>
+          <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 
   <repositories>
     <repository>
@@ -139,7 +154,7 @@
         <version>${surfire.version}</version>
       </plugin>
       <plugin>
-        <groupId>com.coveo</groupId>
+        <groupId>com.spotify.fmt</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
         <version>${maven-fmt.version}</version>
         <executions>
