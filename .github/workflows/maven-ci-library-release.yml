@@ -30,7 +30,7 @@ jobs:
     - name: Maven build package
       run: mvn -B package -Dmaven.test.skip
     - name: Maven deploy to github mvn repository
-      run: mvn -P github-release -B deploy
+      run: mvn -P github-release --batch-mode -B deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   release-ossrh:
@@ -55,7 +55,7 @@ jobs:
     - name: Maven build package
       run: mvn -B package -Dmaven.test.skip
     - name: Maven deploy to maven central mvn repository
-      run: mvn -P ossrh-release -B deploy
+      run: mvn -P ossrh-release --batch-mode -B deploy
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
