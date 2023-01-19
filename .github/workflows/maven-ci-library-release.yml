@@ -32,7 +32,7 @@ jobs:
     - name: Maven build package
       run: mvn -B package -Dmaven.test.skip
     - name: Maven deploy to github mvn repository
-      run: mvn -P github-release --batch-mode -B deploy
+      run: mvn -P gpg,github-release --batch-mode -B deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSPHRASE }}
@@ -60,7 +60,7 @@ jobs:
     - name: Maven build package
       run: mvn -B package -Dmaven.test.skip
     - name: Maven deploy to maven central mvn repository
-      run: mvn -P ossrh-release --batch-mode -B deploy
+      run: mvn -P gpg,ossrh-release --batch-mode -B deploy
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
