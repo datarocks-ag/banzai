@@ -71,20 +71,20 @@ public class PipeLine<I, P, O> {
       this.outputClass = outputClass;
     }
 
-    private Class<?> getInputClass() { // NOSONAR
+    protected Class<?> getInputClass() { // NOSONAR
       return inputClass;
     }
 
-    private Class<?> getProcessClass() { // NOSONAR
+    protected Class<?> getProcessClass() { // NOSONAR
       return processClass;
     }
 
-    private Class<?> getOutputClass() { // NOSONAR
+    protected Class<?> getOutputClass() { // NOSONAR
       return outputClass;
     }
 
     public PipeLine<INPUT, PROCESS, OUTPUT> build() {
-      PipeLine<INPUT, PROCESS, OUTPUT> pipeLine = new PipeLine<INPUT, PROCESS, OUTPUT>();
+      PipeLine<INPUT, PROCESS, OUTPUT> pipeLine = new PipeLine<>();
       if (abstractHeadTransformer == null) {
         throw new HeadTransformerRequiredException();
       }
