@@ -42,14 +42,14 @@
     <maven.compiler.target>11</maven.compiler.target>
     <junit.version>5.9.2</junit.version>
     <surfire.version>2.22.2</surfire.version>
-    <assertj.version>3.24.1</assertj.version>
+    <assertj.version>3.24.2</assertj.version>
     <lombok.version>1.18.24</lombok.version>
     <slf4j.version>2.0.6</slf4j.version>
     <gson.version>2.10.1</gson.version>
     <guava.version>31.1-jre</guava.version>
     <commons-lang.version>3.12.0</commons-lang.version>
     <json-schema.version>1.14.1</json-schema.version>
-    <mockito.version>4.10.0</mockito.version>
+    <mockito.version>5.0.0</mockito.version>
 
     <maven-fmt.version>2.19</maven-fmt.version>
     <maven-sonar.version>3.9.1.2184</maven-sonar.version>
@@ -91,6 +91,34 @@
           <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
       </distributionManagement>
+    </profile>
+    <profile>
+      <id>gpg</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven-gpg.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <!-- Prevent `gpg` from using pinentry programs -->
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 
@@ -229,27 +257,6 @@
             <goals>
               <goal>report</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>${maven-gpg.version}</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-            <configuration>
-              <!-- Prevent `gpg` from using pinentry programs -->
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-            </configuration>
           </execution>
         </executions>
       </plugin>
