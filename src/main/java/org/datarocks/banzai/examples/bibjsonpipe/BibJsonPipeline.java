@@ -5,7 +5,7 @@ import org.datarocks.banzai.configuration.HandlerConfiguration;
 import org.datarocks.banzai.pipeline.PipeLine;
 
 public class BibJsonPipeline {
-  private static PipeLine<String, Bibliography, String> pipeLine;
+  private final PipeLine<String, Bibliography, String> pipeLine;
 
   public BibJsonPipeline() {
     pipeLine =
