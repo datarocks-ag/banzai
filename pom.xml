@@ -49,7 +49,7 @@
     <guava.version>31.1-jre</guava.version>
     <commons-lang.version>3.12.0</commons-lang.version>
     <json-schema.version>1.14.1</json-schema.version>
-    <mockito.version>5.0.0</mockito.version>
+    <mockito.version>5.1.0</mockito.version>
 
     <maven-fmt.version>2.19</maven-fmt.version>
     <maven-sonar.version>3.9.1.2184</maven-sonar.version>
