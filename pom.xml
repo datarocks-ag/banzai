@@ -54,7 +54,7 @@
     <maven-fmt.version>2.19</maven-fmt.version>
     <maven-sonar.version>3.9.1.2184</maven-sonar.version>
     <maven-jacoco.version>0.8.8</maven-jacoco.version>
-    <maven-javadoc.version>3.4.1</maven-javadoc.version>
+    <maven-javadoc.version>3.5.0</maven-javadoc.version>
     <maven-source.version>3.2.1</maven-source.version>
     <maven-gpg.version>3.0.1</maven-gpg.version>
 
