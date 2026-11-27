@@ -36,7 +36,28 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSPHRASE }}
+  # The secrets context is not available in job-level `if`, so a gate job
+  # exposes whether the Central Portal token is configured.
+  check-central-token:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+    - name: Check Central Portal token secrets
+      id: check
+      env:
+        CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+        CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+      run: |
+        if [ -n "$CENTRAL_TOKEN_USERNAME" ] && [ -n "$CENTRAL_TOKEN_PASSWORD" ]; then
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "enabled=false" >> "$GITHUB_OUTPUT"
+          echo "::notice::CENTRAL_TOKEN_USERNAME/CENTRAL_TOKEN_PASSWORD not set, skipping Maven Central release"
+        fi
   release-central:
+    needs: check-central-token
+    if: needs.check-central-token.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
