@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/checkout@v7
+    - name: Set up JDK 17
+      uses: actions/setup-java@v6
       with:
         distribution: temurin
-        java-version: 11
+        java-version: 17
         cache: maven
         gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
@@ -36,18 +36,39 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSPHRASE }}
-  release-ossrh:
+  # The secrets context is not available in job-level `if`, so a gate job
+  # exposes whether the Central Portal token is configured.
+  check-central-token:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+    - name: Check Central Portal token secrets
+      id: check
+      env:
+        CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+        CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+      run: |
+        if [ -n "$CENTRAL_TOKEN_USERNAME" ] && [ -n "$CENTRAL_TOKEN_PASSWORD" ]; then
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "enabled=false" >> "$GITHUB_OUTPUT"
+          echo "::notice::CENTRAL_TOKEN_USERNAME/CENTRAL_TOKEN_PASSWORD not set, skipping Maven Central release"
+        fi
+  release-central:
+    needs: check-central-token
+    if: needs.check-central-token.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/checkout@v7
+    - name: Set up JDK 17
+      uses: actions/setup-java@v6
       with:
         distribution: temurin
-        java-version: 11
+        java-version: 17
         cache: maven
-        server-id: ossrh
+        server-id: central
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
         gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
@@ -59,9 +80,9 @@ jobs:
       run: mvn -B versions:set -DnewVersion=${{ env.release_tag_version }}
     - name: Maven build package
       run: mvn -B package -Dmaven.test.skip
-    - name: Maven deploy to maven central mvn repository
-      run: mvn -P gpg,ossrh-release --batch-mode -B deploy
+    - name: Maven deploy to Maven Central (Central Portal)
+      run: mvn -P gpg,central-release --batch-mode -B deploy
       env:
-        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSPHRASE }}

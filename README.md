@@ -131,7 +131,7 @@ section in your pom file:
 <dependency>
     <groupId>org.datarocks</groupId>
     <artifactId>banzai</artifactId>
-    <version>1.0.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
